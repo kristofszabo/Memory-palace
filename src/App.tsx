@@ -1,7 +1,7 @@
 
 import './App.css'
 import RoomList from './components/roomlist.tsx';
-import {Room, RoomItem, RoomTreeProps} from './components/roomlist.tsx';
+import {Room, RoomItemEntry, RoomTreeProps} from './components/roomlist.tsx';
 import { useState } from 'react';
 
 function App() {
@@ -25,10 +25,20 @@ function App() {
       const newlist = rooms.filter(room=>room.guid!==guid);
       setRooms([...newlist])
     }
+
+    function changeRoomName(newName: string, roomId: string){
+      rooms.find(room=>room.guid===roomId)!.name = newName;
+      setRooms([...rooms])
+    }
+
+    function changeSubItem(newName: string, roomId: string, itemId: string){
+      rooms.find(room=>room.guid===roomId)!.subItems.find(subItem=>subItem.guid===itemId)!.name = newName;
+      setRooms([...rooms])
+    }
   
   return (
     <>
-      <RoomList rooms={rooms} addRoom={addRoom} addSubItem={addSubItem} deleteSubItem={deleteSubItem} deleteRoom={deleteRoom}></RoomList>
+      <RoomList rooms={rooms} addRoom={addRoom} addSubItem={addSubItem} deleteSubItem={deleteSubItem} deleteRoom={deleteRoom} changeRoomName={changeRoomName} changeSubItem={changeSubItem}></RoomList>
     </>
   )
 }
